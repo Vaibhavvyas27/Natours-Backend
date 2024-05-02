@@ -4,7 +4,7 @@
   "description": "Learning node,express & mongodb ",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "node server.js",
     "debug": "ndb server.js",
     "build": "SET NODE_ENV=production&&nodemon server.js"
   },
