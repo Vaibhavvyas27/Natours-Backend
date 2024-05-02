@@ -13,7 +13,7 @@ const app = express()
 app.use(cookieParser())
 
 const corsOptions ={
-    origin:['http://localhost:5173','https://dev-natours-vv.netlify.app'],
+    origin:['http://localhost:5173','https://dev-natours-vv.netlify.app','https://natours-frontend-blush.vercel.app/'],
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200,
     methods: ['POST', 'PUT', 'PATCH' , 'GET', 'OPTIONS', 'HEAD'],
