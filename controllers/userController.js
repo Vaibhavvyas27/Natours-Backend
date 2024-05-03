@@ -3,6 +3,7 @@ const User = require('./../models/userModel');
 const AppError = require('../utils/appError');
 const factory = require('./handlerFactory')
 const multer = require('multer')
+const {uploadOnCloudinary} = require('./../utils/cloudinary') 
 
 
 const storage = multer.diskStorage({
@@ -63,7 +64,6 @@ exports.deleteMe = catchAsync( async (req, res, next)=>{
 })
 
 exports.updateMe = catchAsync(async (req, res, next) => {
-        
     if(req.body.password || req.body.passwordConfirm){
         return next(new AppError(`This is not for Password updates`,400))
     }
@@ -71,8 +71,10 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     let filterdBody
     
     if(req.file){
-        req.body.photo = req.file.filename
+        const photoUrl= await uploadOnCloudinary(req.file.path)
+        req.body.photo = photoUrl
         filterdBody  = filterObj(req.body,'name','email','photo')
+        
     }
     else{
         console.log('Not file')
