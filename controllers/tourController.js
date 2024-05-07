@@ -1,5 +1,6 @@
 const AppError = require('../utils/appError')
 const Tour = require('./../models/tourModel')
+const User = require('./../models/userModel')
 const APIFeatures = require('./../utils/apiFeatures')  // ApiFeature class Instance 
 const catchAsync = require('./../utils/catchAsync')   //  Function to catch & throw error from async reqest
 const factory = require('./handlerFactory')
@@ -169,5 +170,47 @@ exports.getDistances = catchAsync(async (req, res, next) => {
         data : {
             data : distances
         }
+    })
+})
+
+
+// V) Wish List  methods 
+
+exports.addToWishlist = catchAsync(async (req, res) => {
+    console.log(req.params.tourId)
+    const user = await User.findById(req.user._id)
+    const newList =  user.wishlist.push(req.params.tourId)
+    user.wishlist = newList
+    user.save({validateBeforeSave : false})
+    res.status(200).json({
+        status: 'Success',
+        message : 'Add to wishlist'
+    })
+})
+
+exports.getWishlist = catchAsync(async (req, res) => {
+    const user = await User.findById(req.user._id).populate('wishlist')
+    res.status(200).json({
+        status: 'Success',
+        message : 'Add to wishlist',
+        data : {
+            wishlist :user.wishlist
+        }
+    })
+})
+
+exports.removeFromWishlist = catchAsync(async (req, res) => {
+    const user = await User.findById(req.user._id)
+    const index = user.wishlist.indexOf(req.params.tourId);
+
+    // remove that specific tour 
+    user.wishlist.splice(index, 1)
+
+    // save the user with updated list 
+    user.save({validateBeforeSave : false})
+
+    res.status(200).json({
+        status: 'Success',
+        message : 'Remove from wishlist'
     })
 })

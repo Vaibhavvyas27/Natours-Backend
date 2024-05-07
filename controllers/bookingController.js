@@ -11,6 +11,13 @@ const stripe = require('stripe')(process.env.STRIPE_SECRETE_KEY)
 exports.getCheckoutSessions = catchAsync(async (req, res, next) => {
     console.log(req.get('origin'))
     const tour = await Tour.findById(req.params.tourId);
+
+    const booking = await Booking.find({user:req.user._id,tour:req.params.tourId})
+    if(booking.length != 0){
+        console.log('not .. not .. not')
+        return next(new AppError(`You Alredy booked this tour`, 500))
+    }
+    console.log(booking)
     // Create Checkout Session 
     const session = await stripe.checkout.sessions.create({
         payment_method_types : ['card'],
