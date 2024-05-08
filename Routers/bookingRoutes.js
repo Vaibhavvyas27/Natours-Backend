@@ -20,4 +20,9 @@ router.get('/my-bookings',
     bookingController.getMyBookings
 )
 
+router.get('/tours/:tourId/', 
+    authController.protect, 
+    bookingController.getSingleBooking
+)
+
 module.exports = router

@@ -2,17 +2,21 @@ const catchAsync = require('./../utils/catchAsync')   //  Function to catch & th
 const Review = require('./../models/reviewModel');
 const AppError = require('../utils/appError');
 const factory = require('./handlerFactory')
-
+const Booking = require('./../models/bookingModel')
 
 
 exports.getAllReviews = factory.getAll(Review)
 
-exports.setTourUserIds = (req, res, next) => {
+exports.setTourUserIds = async(req, res, next) => {
     if(!req.body.tour){
         req.body.tour = req.params.tourId
     }
     if(!req.body.user){
         req.body.user = req.user.id
+    }
+    const booking = await Booking.find({user:req.body.user,tour:req.body.tour})
+    if(booking.length == 0){
+        return next(new AppError(`You not booked this tour`, 500))
     }
     next()
 }

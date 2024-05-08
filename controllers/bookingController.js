@@ -14,7 +14,6 @@ exports.getCheckoutSessions = catchAsync(async (req, res, next) => {
 
     const booking = await Booking.find({user:req.user._id,tour:req.params.tourId})
     if(booking.length != 0){
-        console.log('not .. not .. not')
         return next(new AppError(`You Alredy booked this tour`, 500))
     }
     console.log(booking)
@@ -74,3 +73,16 @@ exports.getMyBookings = catchAsync(async (req, res, next) => {
     })
     
 })
+
+exports.getSingleBooking = catchAsync(async (req, res, next) => {
+    const booking = await Booking.find({user:req.user._id,tour:req.params.tourId})
+
+    return res.status(200).json({
+        status : 'success',
+        meassage : 'Sucessfully find ',
+        booking,
+    })
+    
+})
+
+

@@ -79,6 +79,7 @@ exports.login = catchAsync(async (req, res, next) => {
 // ------------ Security & Authorization ------------ 
 
 exports.protect = catchAsync(async (req, res, next) => {
+    
     let token;
     // Check Header Token 
     if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
@@ -108,7 +109,6 @@ exports.protect = catchAsync(async (req, res, next) => {
     }
     
     req.user = currentUser;
-
     if(req.path === '/auth-check'){
        return res.status(201).json({
             message : 'Success',
