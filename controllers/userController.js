@@ -5,7 +5,7 @@ const factory = require('./handlerFactory')
 const multer = require('multer')
 const {uploadOnCloudinary} = require('./../utils/cloudinary') 
 
-
+// Store the file
 const storage = multer.diskStorage({
     destination: function(req, file, cb) { 
         return cb(null, "./public/img/users")
@@ -15,6 +15,8 @@ const storage = multer.diskStorage({
     }
 })
 
+
+// Check file is img or not 
 const multerFilter = (req, file, cb) => {
     if(file.mimetype.startsWith('image')){
         cb(null, true)
@@ -74,7 +76,6 @@ exports.updateMe = catchAsync(async (req, res, next) => {
         const photoUrl= await uploadOnCloudinary(req.file.path)
         req.body.photo = photoUrl
         filterdBody  = filterObj(req.body,'name','email','photo')
-        
     }
     else{
         console.log('Not file')

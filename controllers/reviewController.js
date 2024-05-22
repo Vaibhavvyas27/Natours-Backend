@@ -28,3 +28,14 @@ exports.creatReview = factory.createOne(Review)
 exports.deleteReview = factory.deleteOne(Review)
 
 exports.updateReview = factory.updateOne(Review)
+
+exports.getMyReviews = catchAsync(async (req, res, next) => {
+    console.log('enter')
+    const reviews = await Review.find({user:req.params.userId})
+
+    res.status(201).json({
+        status: 'Success',
+        message: 'succesgull',
+        reviews,
+    })
+})

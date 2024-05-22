@@ -24,7 +24,7 @@ const server = app.listen(port, () => {
 });
 
 
-// Handaling Unhandale Errors 
+// Handaling Unhandale Errors
 
 process.on('unhandledRejection', err => {
     console.log(err.name, err.message)

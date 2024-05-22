@@ -18,11 +18,11 @@ router.route(`/`)
 
 router.use(authController.protect)
 
-
+router.route(`/user/:userId`).get(reviewController.getMyReviews)
 
 // Restrict all routes to admin after this below middleware
 
-router.use(authController.restrictTo('admin'))
+router.use(authController.restrictTo('user'))
 
 
  

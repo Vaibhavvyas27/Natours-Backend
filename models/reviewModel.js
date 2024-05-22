@@ -6,6 +6,13 @@ const reviewSchema = new mongoose.Schema(
         review: {
             type: String,
             required: [true, 'rewiew can not be null'],
+            validate: {
+                validator: function(v) {
+                    // Split the review into words and count them
+                    return v.split(' ').length <= 35;
+                },
+                message: 'Review cannot exceed 35 words'
+            }
         },
         rating: {
             type: Number,
@@ -38,7 +45,7 @@ const reviewSchema = new mongoose.Schema(
 reviewSchema.pre(/^find/, function (next) {
     this.populate({
         path : 'tour',
-        select : 'name'
+        select : 'name imageCover'
     }).populate({
         path : 'user',
         select : 'name photo'

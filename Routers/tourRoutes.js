@@ -22,6 +22,7 @@ router.route('/monthly-plan/:year')
 
 router.route('/tours-within/:distance/center/:latlng/unit/:unit').get(tourController.getToursWithin)
 router.route('/distances/:latlng/unit/:unit').get(tourController.getDistances)
+
 router.route('/save-to-wishlist/:tourId').get(authController.protect, tourController.addToWishlist)
 router.route('/remove-from-wishlist/:tourId').get(authController.protect, tourController.removeFromWishlist)
 router.route('/get-wishlist').get(authController.protect, tourController.getWishlist)

@@ -76,6 +76,7 @@ app.use('/api/v1/bookings', bookingRouter)
 // Error Handler for undefined routes
 app.all('*',(req, res, next)=>{
     next(new AppError(`Can't Find ${req.originalUrl} on Server`, 404))
+    
 })
 
 
