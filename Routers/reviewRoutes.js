@@ -30,4 +30,5 @@ router.route(`/:id`)
     .get(authController.protect, reviewController.getSingleReview)
     .delete(authController.protect, reviewController.deleteReview)
     .patch(authController.protect, reviewController.updateReview)
+
 module.exports = router
