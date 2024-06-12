@@ -29,8 +29,8 @@ router.route('/get-wishlist').get(authController.protect, tourController.getWish
 
 router.route(`/`)
     .get(tourController.getAllTours)
-    .post(authController.protect, authController.restrictTo('admin','lead-guide'), tourController.creatTour)
-
+    .post(authController.protect, authController.restrictTo('admin','lead-guide'), tourController.uploadTourImges, tourController.createToursMiddlware, tourController.creatTour)
+    
 router.route(`/:id`)
     .get(tourController.getSingleTour)
     .patch(tourController.updateTour)

@@ -71,7 +71,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     }
 
     let filterdBody
-    
+    // console.log(req.file)
     if(req.file){
         const photoUrl= await uploadOnCloudinary(req.file.path)
         req.body.photo = photoUrl

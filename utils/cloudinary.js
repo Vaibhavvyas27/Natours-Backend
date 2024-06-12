@@ -3,9 +3,9 @@ const catchAsync = require('./catchAsync');
 const fs = require('fs')
           
 cloudinary.config({ 
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
-  api_key: process.env.CLOUDINARY_API_KEY, 
-  api_secret: process.env.CLOUDINARY_API_SECRATE 
+  cloud_name: 'dhkasy82t', 
+  api_key: '742615634715973', 
+  api_secret: 'ODvjBf0Xx7BjoMSqGxUjf6fpqMU',
 });
 
 exports.uploadOnCloudinary = async (localFilePath) => {
@@ -15,6 +15,7 @@ exports.uploadOnCloudinary = async (localFilePath) => {
         fs.unlinkSync(localFilePath);
         return uploadresponce.secure_url
     } catch (error) {
+        fs.unlinkSync(localFilePath);
         console.log(error)
     }
 }

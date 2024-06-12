@@ -34,7 +34,6 @@ exports.updateOne = (Model) => catchAsync(async (req, res, next) => {
 })
 
 exports.createOne = (Model) => catchAsync(async (req, res) => {
-    console.log('Create Strat')
     const newDoc = await Model.create(req.body)
     res.status(200).json({
         status: 'Success',

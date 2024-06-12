@@ -21,6 +21,11 @@ const corsOptions ={
 app.use(cors(corsOptions));
 
 
+
+// Bypass the ssl certificate verification
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0
+
+
 // ------------------- Middlewares -------------------
 
 

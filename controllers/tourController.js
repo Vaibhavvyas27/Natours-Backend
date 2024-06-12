@@ -4,6 +4,65 @@ const User = require('./../models/userModel')
 const APIFeatures = require('./../utils/apiFeatures')  // ApiFeature class Instance 
 const catchAsync = require('./../utils/catchAsync')   //  Function to catch & throw error from async reqest
 const factory = require('./handlerFactory')
+const multer = require('multer')
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) { 
+        return cb(null, "./public/img/tours")
+    },
+    filename: function (req, file, cb) {
+        return cb(null, `${Date.now()}_${file.originalname}`)
+    }
+})
+
+
+// Check file is img or not 
+const multerFilter = (req, file, cb) => {
+    if(file.mimetype.startsWith('image')){
+        cb(null, true)
+    }
+    else{
+        cb(new AppError(`Please Upload Valid image !!`, 400), false)
+    }
+}
+
+const upload = multer({
+    storage : storage,
+    fileFilter : multerFilter
+})
+// upload
+exports.uploadTourImges = upload.fields([
+    { name: 'images', maxCount: 12 },
+    { name: 'coverImg', maxCount: 1 }
+])
+
+exports.createToursMiddlware = (req, res, next) => {
+    console.log(req.body)
+    if(req.files.coverImg){
+        req.body.imageCover = req.files.coverImg[0].filename
+    }
+    if(req.files.images){
+        const imageFilenames = req.files.images.map(image => image.filename)
+        req.body.images = imageFilenames
+    }
+    if(req.body.startLocation){
+        const startLocation = JSON.parse(req.body.startLocation)
+        req.body.startLocation = startLocation
+
+    }
+    if(req.body.startDates){
+        const startDates = JSON.parse(req.body.startDates)
+        req.body.startDates = startDates
+    }
+    if(req.body.tourLocations){
+        const tourLocations = JSON.parse(req.body.tourLocations)
+        req.body.locations = tourLocations
+    }
+    next()
+}
+
+
+
 
 // i)  Cheapest 5 Tours filter..
 
