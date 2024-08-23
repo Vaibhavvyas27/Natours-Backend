@@ -33,7 +33,7 @@ router.route(`/`)
     
 router.route(`/:id`)
     .get(tourController.getSingleTour)
-    .patch(tourController.updateTour)
+    .patch(tourController.uploadTourImges, tourController.createToursMiddlware, tourController.updateTour)
     .delete(authController.protect, authController.restrictTo('admin'), tourController.deleteTour)
 
 module.exports = router

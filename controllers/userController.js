@@ -19,6 +19,7 @@ const storage = multer.diskStorage({
 // Check file is img or not 
 const multerFilter = (req, file, cb) => {
     if(file.mimetype.startsWith('image')){
+        console.log("snjnsd")
         cb(null, true)
     }
     else{
@@ -66,12 +67,14 @@ exports.deleteMe = catchAsync( async (req, res, next)=>{
 })
 
 exports.updateMe = catchAsync(async (req, res, next) => {
+    console.log("df")
+    console.log(req.body)
     if(req.body.password || req.body.passwordConfirm){
         return next(new AppError(`This is not for Password updates`,400))
     }
 
     let filterdBody
-    // console.log(req.file)
+    // console.log(req.body)
     if(req.file){
         const photoUrl= await uploadOnCloudinary(req.file.path)
         req.body.photo = photoUrl
@@ -103,3 +106,4 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 exports.getAllUsers =  factory.getAll(User)
 exports.getSingleUser = factory.getSingleOne(User)
 exports.updateUser = factory.updateOne(User)
+exports.deleteUser = factory.deleteOne(User)

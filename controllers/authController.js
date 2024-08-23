@@ -63,7 +63,7 @@ exports.login = catchAsync(async (req, res, next) => {
 
     res.cookie('jwt_cookie', token, {
         expires : new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
-        sameSite: 'None',
+        sameSite: 'Lax',
         secure: true,
         httpOnly : true
     }).status(201).json({
@@ -79,7 +79,6 @@ exports.login = catchAsync(async (req, res, next) => {
 // ------------ Security & Authorization ------------ 
 
 exports.protect = catchAsync(async (req, res, next) => {
-    
     let token;
     // Check Header Token 
     if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
@@ -121,6 +120,11 @@ exports.restrictTo = (...roles) => {
     return (req, res, next)=>{
         if(!roles.includes(req.user.role)){
             return next(new AppError(`You Do Not Have Permission To Perform This Action`,403))
+        }
+        if(req.path === '/access-check'){
+            return res.status(201).json({
+                 message : 'Success',
+             })
         }
         next()
     }
@@ -216,7 +220,12 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
 
 exports.logout = catchAsync(async (req, res, next) => {
-    res.clearCookie('jwt_cookie')
+    res.clearCookie('jwt_cookie', {
+        sameSite: 'None',
+        secure: true,
+        httpOnly : true
+    });
+    console.log("done this")
     res.status(201).json({
         status: 'Success',
         message: 'LogOut Sucessfully',

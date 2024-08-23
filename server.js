@@ -9,7 +9,7 @@ const DB = process.env.DATABASE.replace(
 );
 
 mongoose.connect(DB)
-    .then(() => console.log('MongoDB Connected Succesfully......'))
+    .then(() => console.log('MongoDB Connected Succesfully......✅'))
     .catch((error) => {
         console.error('Error connecting to MongoDB:', error);
         process.exit(1);
@@ -20,7 +20,7 @@ const port = process.env.PORT || 3000;
 console.log(app.get('env'));
 
 const server = app.listen(port, () => {
-    console.log(`Server is Runing of port ${port}`);
+    console.log(`Server is Runing of port ${port} 🚀`);
 });
 
 

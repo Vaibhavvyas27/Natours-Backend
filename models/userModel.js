@@ -14,11 +14,12 @@ const userSchema = new mongoose.Schema({
         unique : true,
         lowercase : true,
         validate : [validator.isEmail,'Email must be valid email'],
+        
     },
     role : {
         type : String,
         enum : ['user','admin','guide'],
-        default : 'user'
+        default : 'user', 
     },
     passwordChangedAt : Date,
     passwordResetToken : String,
@@ -58,7 +59,9 @@ const userSchema = new mongoose.Schema({
     
 })
 
+//  Text Search index 
 
+userSchema.index({ name : 'text', email : 'text' })
 
 // Model Middlewares 
 

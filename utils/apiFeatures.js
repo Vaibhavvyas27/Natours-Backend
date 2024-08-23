@@ -7,12 +7,12 @@ class APIFeatures{
     filter(){
         // Filtering
         let queryObj = {...this.queryString}
-        const excludeFeilds = ['page','sort','limit','feilds']
+        const excludeFeilds = ['page','sort','limit','feilds','search']
         excludeFeilds.forEach(el => delete queryObj[el]);
 
         // Advanced Filtering
         let queryStr = JSON.stringify(queryObj)
-        queryStr = queryStr.replace(/\b(gte|lt|gt|lte)\b/g, match => `$${match}` )
+        queryStr = queryStr.replace(/\b(gte|lt|gt|lte|ne)\b/g, match => `$${match}` )
         queryObj = JSON.parse(queryStr)
         this.query = this.query.find(queryObj)
         // let query = Tour.find(queryObj)
@@ -35,6 +35,18 @@ class APIFeatures{
         if(this.queryString.feilds){
             const feilds =this.queryString.feilds.split(',').join(' ')
             this.query = this.query.select(feilds)
+        }
+        return this;
+    }
+
+    search() {
+        if(this.queryString.search){
+            const serchText = `\"${this.queryString.search}\"`
+            const searchQuery = {
+                $text: { $search: serchText }
+            }
+            console.log(searchQuery)
+            this.query = this.query.find(searchQuery)
         }
         return this;
     }

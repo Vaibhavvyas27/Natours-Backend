@@ -8,6 +8,7 @@ const multer = require('multer')
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) { 
+        console.log(file)
         return cb(null, "./public/img/tours")
     },
     filename: function (req, file, cb) {
@@ -37,15 +38,15 @@ exports.uploadTourImges = upload.fields([
 ])
 
 exports.createToursMiddlware = (req, res, next) => {
-    console.log(req.body)
-    if(req.files.coverImg){
+    if(req.files != undefined && req.files.coverImg){
         req.body.imageCover = req.files.coverImg[0].filename
     }
-    if(req.files.images){
+    if(req.files != undefined && req.files.images){
+        
         const imageFilenames = req.files.images.map(image => image.filename)
         req.body.images = imageFilenames
     }
-    if(req.body.startLocation){
+    if(req.body.startLocation && typeof req.body.startLocation === 'string'){
         const startLocation = JSON.parse(req.body.startLocation)
         req.body.startLocation = startLocation
 
@@ -57,6 +58,10 @@ exports.createToursMiddlware = (req, res, next) => {
     if(req.body.tourLocations){
         const tourLocations = JSON.parse(req.body.tourLocations)
         req.body.locations = tourLocations
+    }
+    if(req.body.tourGuides){
+        const tourGuides = JSON.parse(req.body.tourGuides)
+        req.body.guides = tourGuides
     }
     next()
 }
