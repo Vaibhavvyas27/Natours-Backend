@@ -75,7 +75,6 @@ exports.login = catchAsync(async (req, res, next) => {
 })
 
 
-
 // ------------ Security & Authorization ------------ 
 
 exports.protect = catchAsync(async (req, res, next) => {
