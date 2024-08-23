@@ -221,7 +221,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
 exports.logout = catchAsync(async (req, res, next) => {
     res.clearCookie('jwt_cookie', {
-        // sameSite: 'None',
+        sameSite: 'None',
         secure: true,
         httpOnly : true
     });
